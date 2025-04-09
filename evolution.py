@@ -34,7 +34,7 @@ print("Data types present in dataset: ",df.dtypes)
 
 #Duplicate rows present in each column
 duplicate_rows = df.duplicated().sum()
-print("Duplicate rows present in dataset: ",duplicate_rows)
+print("\nDuplicate rows present in dataset: ",duplicate_rows)
 
 #Histogram plot from Time column
 plt.figure(figsize = (12,6))
@@ -60,12 +60,13 @@ print("Upper bound for the column time: ",upper_bound)
 
 outliers = ((df['Time'] < lower_bound) | (df['Time'] > upper_bound))
 
-print("Outliers: ", outliers)
+print("\nOutliers: ", outliers)
 
 
 
 #Correaltion matrix and heatmap
 correlation_matrix = df.corr(numeric_only = True)
+print(correlation_matrix)
 plt.figure(figsize=(8,6))
 sns.heatmap(correlation_matrix, annot = True, cmap = "Reds",fmt = ".2f",linewidths = 0.8)
 plt.title("Correlation Heatmap")
@@ -73,3 +74,40 @@ plt.show()
 
 
 #--------------------DATA CLEANING ---------------------
+
+
+#There are no duplicate Rows in the data set
+
+# Dropped the rows with too many missing values
+df.dropna(thresh=0.8 * df.shape[1], inplace=True)
+print("\nRows with too many missing values are dropped\n")
+
+#Removing duplicates
+df.drop_duplicates(inplace=True)
+
+#Cleaning numeric columns
+df['Time'] = pd.to_numeric(df['Time'], errors='coerce')
+df['Cranial_Capacity'] = pd.to_numeric(df['Cranial_Capacity'], errors='coerce')
+df['Height'] = pd.to_numeric(df['Height'], errors='coerce')
+print("\ncolumns containg numeric values are cleaned\n")
+
+#Making column names consistant
+df.columns = df.columns.str.strip().str.replace(' ', '_').str.replace('&', 'and')
+
+#Removing duplicates
+df.drop_duplicates(inplace=True)
+
+#Check null values present in the column
+null_values = df.isnull().sum()[df.isnull().sum() > 0]
+print("\nNo. of null values present in the columns: ",null_values)
+
+#To remove these null values for different columns 
+df['Cranial_Capacity'] = df['Cranial_Capacity'].fillna(df['Cranial_Capacity'].mean())
+df['Height'] = df['Height'].fillna(df['Height'].mean())
+df['Diet'] = df['Diet'].fillna(df['Diet'].mode()[0])
+df['Sexual_Dimorphism'] = df['Sexual_Dimorphism'].fillna(df['Sexual_Dimorphism'].mode()[0])
+df['Migrated'] = df['Migrated'].fillna(df['Migrated'].mode()[0])
+
+#Now again check if there is any missing value
+null_values = df.isnull().sum()[df.isnull().sum() > 0]
+print("\nNo. of null values present in the columns: ",null_values"\n")
