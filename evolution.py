@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
- 
+ #----------------EXPLORATORY DATA ANALYSIS-----------------
 #file ko read/load krna
 df = pd.read_csv(r"C:\Users\mahen\Downloads\Evolution_DataSet_python.csv")
 
@@ -36,6 +36,12 @@ print("Data types present in dataset: ",df.dtypes)
 duplicate_rows = df.duplicated().sum()
 print("Duplicate rows present in dataset: ",duplicate_rows)
 
+#Histogram plot from Time column
+plt.figure(figsize = (12,6))
+sns.histplot(df,bins = 20,kde = True)
+plt.title("Histogram plot")
+plt.show()
+
 #Box - plot
 sns.boxplot(x = df['Time'])
 plt.title("Box-plot on time")
@@ -64,3 +70,6 @@ plt.figure(figsize=(8,6))
 sns.heatmap(correlation_matrix, annot = True, cmap = "Reds",fmt = ".2f",linewidths = 0.8)
 plt.title("Correlation Heatmap")
 plt.show()
+
+
+#--------------------DATA CLEANING ---------------------
