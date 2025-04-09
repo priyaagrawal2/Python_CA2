@@ -3,8 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
  
-#Load file
-df = pd.read_csv(r"C:\Users\mahen\OneDrive\Desktop\PythonCA2\Evolution_DataSet_python.csv")
+#file ko read/load krna
+df = pd.read_csv(r"C:\Users\mahen\Downloads\Evolution_DataSet_python.csv")
 
 #Reading first 10 rows
 print("First 10 rows of dataset: ",df.head(10))
