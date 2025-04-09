@@ -25,6 +25,10 @@ print("Total null values: ",df.isnull().sum().sum())
 unique_values = df.nunique()
 print("Unique values present in dataset: ",unique_values)
 
+#Unique values present in a column
+unique_v = df['Jaw_Shape'].unique()
+print("Unique values present in column name Jaw_Shape: ",unique_v)
+
 #Data Types 
 print("Data types present in dataset: ",df.dtypes)
 
@@ -32,16 +36,25 @@ print("Data types present in dataset: ",df.dtypes)
 duplicate_rows = df.duplicated().sum()
 print("Duplicate rows present in dataset: ",duplicate_rows)
 
-#Outliers count that are present in dataset in column 'Time'
-col = 'Time'
+#Box - plot
+sns.boxplot(x = df['Time'])
+plt.title("Box-plot on time")
+plt.show()
+#By seeing the box plot of time column we get to know this is right - skewed data(use IQR score)
 
-Q1 = df[col].quantile(0.25)
-Q3 = df[col].quantile(0.75)
+#Outliers that are present in dataset in column 'Time'
+Q1 = df['Time'].quantile(0.25)
+Q3 = df['Time'].quantile(0.75)
 IQR = Q3 - Q1
 
-outlier_count = ((df[col] < Q1 - 1.5 * IQR) | (df[col] > Q3 + 1.5 * IQR)).sum()
+lower_bound = Q1 - 1.5*IQR
+upper_bound = Q3 + 1.5*IQR
+print("Lower bound for the column time: ",lower_bound)
+print("Upper bound for the column time: ",upper_bound)
 
-print("Outlier count:", outlier_count)
+outliers = ((df['Time'] < lower_bound) | (df['Time'] > upper_bound))
+
+print("Outliers: ", outliers)
 
 
 
@@ -51,6 +64,3 @@ plt.figure(figsize=(8,6))
 sns.heatmap(correlation_matrix, annot = True, cmap = "Reds",fmt = ".2f",linewidths = 0.8)
 plt.title("Correlation Heatmap")
 plt.show()
-
-
-print("Updated code")
