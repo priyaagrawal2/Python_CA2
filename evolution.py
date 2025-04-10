@@ -32,7 +32,7 @@ print("Unique values present in column name Jaw_Shape: ",unique_v)
 #Data Types 
 print("Data types present in dataset: ",df.dtypes)
 
-#Duplicate rows present in each column
+#check duplicate row present in each column
 duplicate_rows = df.duplicated().sum()
 print("\nDuplicate rows present in dataset: ",duplicate_rows)
 
@@ -72,6 +72,7 @@ sns.heatmap(correlation_matrix, annot = True, cmap = "Reds",fmt = ".2f",linewidt
 plt.title("Correlation Heatmap")
 plt.show()
 
+print("EDA completed")
 
 #--------------------DATA CLEANING ---------------------
 
@@ -81,9 +82,6 @@ plt.show()
 # Dropped the rows with too many missing values
 df.dropna(thresh=0.8 * df.shape[1], inplace=True)
 print("\nRows with too many missing values are dropped\n")
-
-#Removing duplicates
-df.drop_duplicates(inplace=True)
 
 #Cleaning numeric columns
 df['Time'] = pd.to_numeric(df['Time'], errors='coerce')
@@ -104,10 +102,12 @@ print("\nNo. of null values present in the columns: ",null_values)
 #To remove these null values for different columns 
 df['Cranial_Capacity'] = df['Cranial_Capacity'].fillna(df['Cranial_Capacity'].mean())
 df['Height'] = df['Height'].fillna(df['Height'].mean())
-df['Diet'] = df['Diet'].fillna(df['Diet'].mode()[0])
-df['Sexual_Dimorphism'] = df['Sexual_Dimorphism'].fillna(df['Sexual_Dimorphism'].mode()[0])
-df['Migrated'] = df['Migrated'].fillna(df['Migrated'].mode()[0])
+df['Diet'] = df['Diet'].fillna(df['Diet'].mode())
+df['Sexual_Dimorphism'] = df['Sexual_Dimorphism'].fillna(df['Sexual_Dimorphism'].mode())
+df['Migrated'] = df['Migrated'].fillna(df['Migrated'].mode())
 
 #Now again check if there is any missing value
 null_values = df.isnull().sum()[df.isnull().sum() > 0]
-print("\nNo. of null values present in the columns: ",null_values"\n")
+print("\nNo. of null values present in the columns: ",null_values)
+
+print("data cleaning completed")
