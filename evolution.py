@@ -38,14 +38,14 @@ print("\nDuplicate rows present in dataset: ",duplicate_rows)
 
 #Histogram plot from Time column
 plt.figure(figsize = (12,6))
-sns.histplot(df,bins = 20,kde = True)
+sns.histplot(df['Time'],bins = 20,kde = True)
 plt.title("Histogram plot")
 plt.show()
 
 #Box - plot
 sns.boxplot(x = df['Time'])
 plt.title("Box-plot on time")
-plt.show()
+# plt.show()
 #By seeing the box plot of time column we get to know this is right - skewed data(use IQR score)
 
 #Outliers that are present in dataset in column 'Time'
@@ -67,8 +67,8 @@ print("\nOutliers: ", outliers)
 #Correaltion matrix and heatmap
 correlation_matrix = df.corr(numeric_only = True)
 print(correlation_matrix)
-plt.figure(figsize=(8,6))
-sns.heatmap(correlation_matrix, annot = True, cmap = "Reds",fmt = ".2f",linewidths = 0.8)
+plt.figure(figsize=(6,6))
+sns.heatmap(correlation_matrix, annot = True, cmap = "coolwarm",fmt = ".2f",linewidths = 0.8)
 plt.title("Correlation Heatmap")
 plt.show()
 
@@ -111,3 +111,39 @@ null_values = df.isnull().sum()[df.isnull().sum() > 0]
 print("\nNo. of null values present in the columns: ",null_values)
 
 print("data cleaning completed")
+
+#----------------------DATA VISUALIZATION -----------------------
+
+#configure the style and appearance of plot
+sns.set_theme(style="whitegrid", palette="pastel")
+
+#Histogram plot for column Cranial_Capacity
+sns.histplot(df['Cranial_Capacity'], kde=True,  color='mediumslateblue')
+plt.title("Histogram plot for Cranial Capacity")
+plt.show()
+
+#Some box plots
+plt.figure(figsize=(12, 5))
+# First plot: Cranial Capacity
+plt.subplot(1, 2, 1)
+sns.boxplot(y=df['Cranial_Capacity'], color='skyblue')
+plt.title("Cranial Capacity")
+plt.ylabel("Cranial Capacity")
+
+# Second plot: Height
+plt.subplot(1, 2, 2)
+sns.boxplot(y=df['Height'], color='lightgreen')
+plt.title("Height")
+plt.ylabel("Height")
+plt.show()
+#for showing 2 or more box plots in one we use subplot function
+
+#Bar plot for average height for good visualization
+plt.figure(figsize=(10, 6))
+sns.barplot(data=df, x='Zone', y='Height', estimator='mean', palette='plasma',hue='Zone')
+plt.title("Average Height by Zone")
+plt.ylabel("Height in (cm)")
+plt.xticks(rotation=45)
+plt.grid(True, linestyle='--', alpha=0.5)
+plt.tight_layout()
+plt.show()
