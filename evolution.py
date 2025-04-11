@@ -140,10 +140,34 @@ plt.show()
 
 #Bar plot for average height for good visualization
 plt.figure(figsize=(10, 6))
-sns.barplot(data=df, x='Zone', y='Height', estimator='mean', palette='plasma',hue='Zone')
+sns.barplot(data=df, x='Zone', y='Height', estimator='mean', palette='viridis',hue='Zone')
 plt.title("Average Height by Zone")
 plt.ylabel("Height in (cm)")
 plt.xticks(rotation=45)
 plt.grid(True, linestyle='--', alpha=0.5)
 plt.tight_layout()
+plt.show()
+
+#For checking updated names of column
+print(df.columns.tolist())
+
+#Bar plot
+cranial_by_species = df.groupby("Genus_and_Specie")["Cranial_Capacity"].mean().sort_values(ascending=False).head(10)
+
+# Plotting
+plt.figure(figsize=(12, 6))
+sns.barplot(x=cranial_by_species.values, y=cranial_by_species.index, palette="magma")
+plt.title("Top 10 Hominin Species by Average Cranial Capacity", fontsize=16)
+plt.xlabel("Cranial Capacity")
+plt.ylabel("Species")
+plt.show()
+
+region_counts =df["Habitat"].value_counts()
+
+plt.figure(figsize=(10, 5))
+sns.lineplot(x=region_counts.index, y=region_counts.values, marker='o', linewidth=2.5, color='black')
+plt.title("Number of species present ")
+plt.xlabel("Habitat")
+plt.ylabel("Count")
+plt.xticks(rotation=45)
 plt.show()
