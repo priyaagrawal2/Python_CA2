@@ -95,6 +95,10 @@ df.columns = df.columns.str.strip().str.replace(' ', '_').str.replace('&', 'and'
 #Removing duplicates
 df.drop_duplicates(inplace=True)
 
+# Convert 'Time' column to numeric by extracting numeric part
+df["Time"] = pd.to_numeric(df["Time"], errors="coerce")
+print(df['Time'].head(5))
+
 #Check null values present in the column
 null_values = df.isnull().sum()[df.isnull().sum() > 0]
 print("\nNo. of null values present in the columns: ",null_values)
@@ -118,8 +122,10 @@ print("data cleaning completed")
 sns.set_theme(style="whitegrid", palette="pastel")
 
 #Histogram plot for column Cranial_Capacity
-sns.histplot(df['Cranial_Capacity'], kde=True,  color='mediumslateblue')
-plt.title("Histogram plot for Cranial Capacity")
+sns.histplot(df['Torus_Supraorbital'], kde=True,  color='mediumslateblue')
+plt.title("Histogram plot for Torus Supraorbital")
+plt.xticks(rotation=45)
+plt.xlabel("state")
 plt.show()
 
 #Some box plots
@@ -149,7 +155,7 @@ plt.tight_layout()
 plt.show()
 
 #For checking updated names of column
-print(df.columns.tolist())
+# print(df.columns.tolist())
 
 #Bar plot
 cranial_by_species = df.groupby("Genus_and_Specie")["Cranial_Capacity"].mean().sort_values(ascending=False).head(10)
@@ -170,4 +176,26 @@ plt.title("Number of species present ")
 plt.xlabel("Habitat")
 plt.ylabel("Count")
 plt.xticks(rotation=45)
+plt.show()
+
+# pie chart on count diet type
+diet_counts = df["Diet"].value_counts()
+
+# Plot a simple pie chart
+plt.pie(diet_counts, labels=diet_counts.index, autopct='%1.1f%%')
+plt.title("Diet Type Distribution")
+plt.show()
+
+scatter_alt_df = df.dropna(subset=["Time", "Height", "Genus_and_Specie"])
+
+# Set up the plot
+plt.figure(figsize=(10, 6))
+
+# Scatter plot: Time vs Height, colored by Genus_&_Specie
+sns.scatterplot(data= scatter_alt_df ,x="Time",y="Height",hue="Height",palette="Set2",s=100,marker='x',alpha = 0.7,legend = False)
+
+plt.title("Evolution of Height Over Time by Genus & Species")
+plt.xlabel("Time")
+plt.ylabel("Height in (cm)")
+plt.legend(title="Genus and Species")
 plt.show()
