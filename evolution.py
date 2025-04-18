@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
  #----------------EXPLORATORY DATA ANALYSIS-----------------
-#file ko read/load krna
+#load the file 
 df = pd.read_csv(r"C:\Users\mahen\Downloads\Evolution_DataSet_python.csv")
 
 #Reading first 10 rows
